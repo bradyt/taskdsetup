@@ -10,7 +10,6 @@ cert_key_files = [ 'client.cert',
                    'server.crl',
                    'ca.cert' ]
 
-# server keys setup
 def test_server_key_setup(taskddata):
     pki_call(taskddata, ['./generate'])
     for cert_key_file in cert_key_files:

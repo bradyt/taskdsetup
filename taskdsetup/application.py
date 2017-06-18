@@ -1,53 +1,39 @@
 
-import click
-import taskdsetup.init
-import taskdsetup.keys
-import taskdsetup.user
-import taskdsetup.user_keys
-import taskdsetup.config
-
-@click.group()
-@click.option('--taskddata', default='/tmp/var/taskd')
-@click.pass_context
-def cli(ctx, taskddata, obj={}):
-    ctx.obj['TASKDDATA'] = taskddata
-
-@cli.command()
-@click.option('--source')
-@click.option('--cn', default='localhost')
-@click.option('--server', default='localhost')
-@click.pass_context
-def init(ctx, source, cn, server):
-    taskdsetup.init.main(ctx.obj['TASKDDATA'], source, cn, server)
-
-@cli.command()
-@click.pass_context
-def keys(ctx):
-    taskdsetup.keys.main(ctx.obj['TASKDDATA'])
-
-@cli.command()
-@click.option('--org', default='Public')
-@click.option('--full-name', default='Testing')
-@click.pass_context
-def user(ctx, org, full_name):
-    taskdsetup.user.main(ctx.obj['TASKDDATA'], org, full_name)
-
-@cli.command()
-@click.option('--user-name', default='testing')
-@click.pass_context
-def userkeys(ctx, user_name):
-    taskdsetup.user_keys.main(ctx.obj['TASKDDATA'], user_name)
-
-@cli.command()
-@click.option('--site', default='localhost')
-@click.option('--port', default='53589')
-@click.option('--dot-task', default='/tmp/.task')
-@click.pass_context
-def config(ctx, site, port, dot_task):
-    taskdsetup.config.main(ctx.obj['TASKDDATA'], site, port, dot_task)
+import argparse
+from . import (init, keys, user, user_keys, config)
 
 def main():
-    cli(obj={})
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--data', default='/tmp/var/taskd')
+    subparsers = parser.add_subparsers(dest='cmd')
 
-if __name__ == '__main__':
-    main()
+    parser_init = subparsers.add_parser('init')
+    parser_init.add_argument('--source')
+    parser_init.add_argument('--cn', default='localhost')
+    parser_init.add_argument('--server', default='localhost')
+
+    parser_keys = subparsers.add_parser('keys')
+
+    parser_user = subparsers.add_parser('user')
+    parser_user.add_argument('--org', default='Public')
+    parser_user.add_argument('--user', default='Testing')
+
+    parser_user_keys = subparsers.add_parser('user_keys')
+    parser_user_keys.add_argument('--user-name', default='testing')
+
+    parser_config = subparsers.add_parser('config')
+    parser_config.add_argument('--site', default='localhost')
+    parser_config.add_argument('--port', default='53589')
+    parser_config.add_argument('--dot-task', default='/tmp/.task')
+
+    args = parser.parse_args()
+    if args.cmd == 'init':
+        init.main(args.data, args.source, args.cn, args.server)
+    elif args.cmd == 'keys':
+        keys.main(args.data)
+    elif args.cmd == 'user':
+        user.main(args.data, args.org, args.user)
+    elif args.cmd == 'user_keys':
+        user_keys.main(args.data, args.user_name)
+    elif args.cmd == 'config':
+        config.main(args.data, args.site, args.port, args.dot_task)

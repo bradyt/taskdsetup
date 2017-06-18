@@ -42,6 +42,5 @@ def main(taskddata, source, cn, server):
     change_cn_line(taskddata, cn)
     add_server_to_config(taskddata, server)
 
-
 if __name__ == '__main__':
     main(taskddata)
