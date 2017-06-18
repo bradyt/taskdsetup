@@ -23,8 +23,8 @@ def fill_template(server, port, dot_task, org, full_name, user_name, uuid):
         '# -*- conf -*-\n'
         'taskd.server      = ' + server + ':' + port + '\n'
         'taskd.ca          = ' + dot_task + '/ca.cert.pem\n'
-        'taskd.certificate = ' + dot_task + '/' + full_name + '.cert.pem\n'
-        'taskd.key         = ' + dot_task + '/' + full_name + '.key.pem\n'
+        'taskd.certificate = ' + dot_task + '/' + user_name + '.cert.pem\n'
+        'taskd.key         = ' + dot_task + '/' + user_name + '.key.pem\n'
         'taskd.credentials = ' + org + '/' + full_name + '/' + uuid + '\n'
         'recurrence        = no')
 
