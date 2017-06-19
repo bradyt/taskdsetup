@@ -6,12 +6,13 @@ with open('README.rst') as file:
 
 setup(
     name = 'taskdsetup',
-    version = '0.0.1.dev2',
+    version = '0.0.1.dev1',
     description = 'CLI to assist in TaskServer setup',
     url = 'https://github.com/bradyt/taskdsetup',
     author = 'Brady Trainor',
     author_email = 'mail@bradyt.com',
     license = 'GPLv3',
+    packages = ['taskdsetup'],
     long_description = long_description,
     entry_points = {
         'console_scripts': ['taskdsetup=taskdsetup.application:main'],
