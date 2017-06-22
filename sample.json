@@ -1,0 +1,35 @@
+{
+    "data": "/tmp/var/taskd",
+    "source": "/tmp/taskd",
+    "cn": "localhost",
+    "server": "localhost",
+    "port": "53589",
+    "orgs": {
+        "Public": {
+            "John Smith": {
+                "phone": {
+                    "task_dir": "",
+                    "config": "insert"
+                },
+                "vps": {
+                    "task_dir": "~/.task",
+                    "config": "command"
+                },
+                "macos": {
+                    "task_dir": "~/.task",
+                    "config": "command"
+                }
+            },
+            "Testing": {
+                "vps": {
+                    "task_dir": "~/.task_testing",
+                    "config": "command"
+                },
+                "macos": {
+                    "task_dir": "~/.task_testing",
+                    "config": "command"
+                }
+            }
+        }
+    }
+}

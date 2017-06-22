@@ -15,7 +15,7 @@ def set_config_keys(user_name, task_dir):
 
 def set_config_server_and_user(server, port, org, full_name, uuid):
     return (
-        'task config taskd.server      -- ' + server + '/' + port + '\n'
+        'task config taskd.server      -- ' + server + ':' + port + '\n'
         'task config taskd.credentials -- ' + org + '/' + full_name + '/' + uuid)
 
 def fill_template(server, port, dot_task, org, full_name, user_name, uuid):
@@ -30,6 +30,7 @@ def fill_template(server, port, dot_task, org, full_name, user_name, uuid):
 
 def main(taskddata, server, port, task_dir):
     users = core.get_dict_of_users(taskddata)
+    print('---')
     for org in users.keys():
         print(org)
         print('---')

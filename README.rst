@@ -12,7 +12,7 @@ Dev
 
 ::
 
-   python -m venv .
+   python3 -m venv .
 
    . bin/activate
 
@@ -26,4 +26,8 @@ Dev
 
    twine upload -r test dist/*
 
+   # note that a single file cannot be uploaded twice
+
    pip3 install -I --user --pre -i https://testpypi.python.org/pypi taskdsetup
+
+   pip3 install --user -i https://testpypi.python.org/pypi taskdsetup

@@ -2,6 +2,7 @@
 import os
 import shutil
 from . import core
+# from .. import taskd.pki
 
 def ensure_binaries():
     for binary in [ 'certtool', 'taskd' ]:
@@ -9,8 +10,8 @@ def ensure_binaries():
             print("You don't have {}".format(binary))
 
 def init_taskddata(taskddata):
-    if not os.path.isdir(os.path.join(taskddata)):
-        os.mkdir(os.path.join(taskddata))
+    if not os.path.isdir(taskddata):
+        os.mkdir(taskddata)
     if not os.path.exists(os.path.join(taskddata, 'config')):
         core.taskd_call(taskddata, ['init'])
     if not os.path.isdir(os.path.join(taskddata, 'orgs')):
@@ -20,6 +21,11 @@ def init_taskddata(taskddata):
 
 def copy_pki(taskddata, source):
     if not os.path.exists(os.path.join(taskddata, 'pki')):
+        if source == None:
+            # get source from git submodule
+            source = os.path.join(
+                os.path.dirname(
+                    os.path.dirname(__file__)),'taskd')
         shutil.copytree(os.path.join(source, 'pki'),
                         os.path.join(taskddata, 'pki'))
 
@@ -38,6 +44,8 @@ def add_server_to_config(taskddata, server):
 def main(taskddata, source, cn, server):
     ensure_binaries()
     init_taskddata(taskddata)
+    # if not os.path.exists(os.path.join(source, 'pki')):
+    #     print("You need to specify a --source where we can find a pki/")
     copy_pki(taskddata, source)
     change_cn_line(taskddata, cn)
     add_server_to_config(taskddata, server)

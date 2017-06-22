@@ -1,0 +1,3 @@
+[submodule "taskd"]
+	path = taskd
+	url = https://git.tasktools.org/TM/taskd.git
