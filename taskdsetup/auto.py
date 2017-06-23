@@ -11,15 +11,20 @@ with open(config_file) as f:
 config = json.loads(json_config)
 
 def main():
-    data_orgs_dict = core.get_dict_of_users(data=config['data'])
-    # init.main(data=config['data'], source=config['source'],
-    #           cn=config['cn'], server=config['server'])
-    # keys.main(data=config['data'])
-    # for org in config['orgs']:
-    #     for full_name in config['orgs'][org]:
-    #         user.main(config['data'], org, full_name)
-    #         user.main(config['data'], org, full_name)
-    #         user_keys.main(config['data'],
-    #                        full_name.lower().replace(' ', '_')) # 
-    config_module.main(server=config['server'], port=config['port'],
-                       config_orgs_dict=config['orgs'], data_orgs_dict=data_orgs_dict)
+    data   = config['data']
+    source = config['source']
+    cn     = config['cn']
+    server = config['server']
+    port   = config['port']
+    orgs   = config['orgs']
+    init.main(data=data, source=source, cn=cn, server=server, port=port)
+    keys.main(data=data)
+    user.main(data=data, config_orgs_dict=orgs)
+    user_keys.main(data=data, config_orgs_dict=orgs)
+    data_orgs_dict = core.get_dict_of_users(data=data)
+    client_configs = config_module.main(
+        server=server, port=port,
+        config_orgs_dict=orgs, data_orgs_dict=data_orgs_dict)
+
+    for line in client_configs:
+        print(line)

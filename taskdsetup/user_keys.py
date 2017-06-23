@@ -9,5 +9,9 @@ def add_user_keys(taskddata, user):
     else:
         pki_call(taskddata, ['./generate.client', user_name])
 
-def main(taskddata, user_name):
-    add_user_keys(taskddata, user_name)
+def main(data, config_orgs_dict):
+    c = config_orgs_dict
+    for org in c:
+        for full_name in c[org]:
+            user_name = full_name.lower().replace(' ', '_')
+            add_user_keys(data, user_name)

@@ -9,23 +9,21 @@ def ensure_binaries():
         if not shutil.which(binary):
             print("You don't have {}".format(binary))
 
-def init_taskddata(taskddata):
-    if not os.path.isdir(taskddata):
-        os.mkdir(taskddata)
-    if not os.path.exists(os.path.join(taskddata, 'config')):
-        core.taskd_call(taskddata, ['init'])
-    if not os.path.isdir(os.path.join(taskddata, 'orgs')):
-        os.mkdir(os.path.join(taskddata, 'orgs'))
-    core.configure(taskddata, ['log', os.path.join(taskddata, 'taskd.log')])
-    core.configure(taskddata, ['pid.file', os.path.join(taskddata, 'taskd.pid')])
+def init_taskddata(data):
+    if not os.path.isdir(data):
+        os.mkdir(data)
+    core.taskd_call(data, ['init'])
+    core.configure(data, ['log', os.path.join(data, 'taskd.log')])
+    core.configure(data, ['pid.file', os.path.join(data, 'taskd.pid')])
+
+def add_server_to_config(taskddata, server, port):
+    core.configure(taskddata, ['server', server + ':' + port])
 
 def copy_pki(taskddata, source):
     if not os.path.exists(os.path.join(taskddata, 'pki')):
         if source == None:
             # get source from git submodule
-            source = os.path.join(
-                os.path.dirname(
-                    os.path.dirname(__file__)),'taskd')
+            source = os.path.join(core.return_project_base_dir(), 'taskd')
         shutil.copytree(os.path.join(source, 'pki'),
                         os.path.join(taskddata, 'pki'))
 
@@ -38,14 +36,9 @@ def change_cn_line(taskddata, cn):
     with open(f, 'w') as writefile:
         filedata = writefile.write(filedata)
 
-def add_server_to_config(taskddata, server):
-    core.configure(taskddata, ['server', server])
-
-def main(taskddata, source, cn, server):
+def main(data, source, cn, server, port):
     ensure_binaries()
-    init_taskddata(taskddata)
-    # if not os.path.exists(os.path.join(source, 'pki')):
-    #     print("You need to specify a --source where we can find a pki/")
-    copy_pki(taskddata, source)
-    change_cn_line(taskddata, cn)
-    add_server_to_config(taskddata, server)
+    init_taskddata(data)
+    add_server_to_config(data, server, port)
+    copy_pki(data, source)
+    change_cn_line(data, cn)

@@ -3,6 +3,10 @@ import os
 import subprocess
 from .core import (get_dict_of_users, pki_call)
 
+# check environment
+# do some functional stuff
+# write to environment
+
 def add_org(taskddata, org):
     target = os.path.join(taskddata, 'orgs')
     if not os.path.isdir(target):
@@ -21,6 +25,13 @@ def add_user(taskddata, org, full_name):
         subprocess.call(['taskd','add','user',org,full_name,
                          '--data',taskddata])
 
-def main(taskddata, org, full_name):
-    add_org(taskddata, org)
-    add_user(taskddata, org, full_name)
+# def main(taskddata, org, full_name):
+#     add_org(taskddata, org)
+#     add_user(taskddata, org, full_name)
+
+def main(data, config_orgs_dict):
+    c = config_orgs_dict
+    for org in c:
+        add_org(data, org)
+        for full_name in c[org]:
+            add_user(data, org, full_name)

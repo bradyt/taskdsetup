@@ -1,6 +1,6 @@
 {
     "data": "/tmp/var/taskd",
-    "source": "/tmp/taskd",
+    "source": null,
     "cn": "localhost",
     "server": "localhost",
     "port": "53589",

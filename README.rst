@@ -31,3 +31,20 @@ Dev
    pip3 install -I --user --pre -i https://testpypi.python.org/pypi taskdsetup
 
    pip3 install --user -i https://testpypi.python.org/pypi taskdsetup
+
+Current testing workflow
+========================
+
+::
+   # pypi testing pip testing
+   # change version
+   python3 setup.py sdist
+   twine upload -r test dist/*
+   pip3 install --user -i https://testpypi.python.org/pypi taskdsetup
+   # ensure your ~/.taskdsetup.yaml is as desired
+   taskdsetup
+
+   # github
+   git pull
+   pip3 install -e .
+   taskdsetup
