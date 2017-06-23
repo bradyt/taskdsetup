@@ -11,7 +11,6 @@ def ensure_binaries():
 
 def init_task(data):
     if not os.path.isdir(data):
-        print(data)
         os.mkdir(data)
     core.taskd_call(data, ['init'])
     core.configure(data, ['log', os.path.join(data, 'taskd.log')])
