@@ -9,8 +9,9 @@ def ensure_binaries():
         if not shutil.which(binary):
             print("You don't have {}".format(binary))
 
-def init_taskddata(data):
+def init_task(data):
     if not os.path.isdir(data):
+        print(data)
         os.mkdir(data)
     core.taskd_call(data, ['init'])
     core.configure(data, ['log', os.path.join(data, 'taskd.log')])
@@ -38,7 +39,7 @@ def change_cn_line(taskddata, cn):
 
 def main(data, source, cn, server, port):
     ensure_binaries()
-    init_taskddata(data)
+    init_task(data)
     add_server_to_config(data, server, port)
     copy_pki(data, source)
     change_cn_line(data, cn)

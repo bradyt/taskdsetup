@@ -7,6 +7,12 @@ helps in initializing taskd and adding users. Besides this, an effort
 will also be made to make (multiple) client configuration smoother,
 and easy to do after the fact.
 
+As described at https://taskwarrior.org/docs/taskserver/prep.html,
+first back up your tasks, with::
+
+  cd ~/.task
+  tar czf task-backup-$(date +'%Y%m%d').tar.gz *
+
 Dev
 ====
 
