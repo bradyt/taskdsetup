@@ -3,16 +3,11 @@ import os
 import subprocess
 from .core import (get_dict_of_users, pki_call)
 
-# check environment
-# do some functional stuff
-# write to environment
-
 def add_org(taskddata, org):
     target = os.path.join(taskddata, 'orgs')
     if not os.path.isdir(target):
         os.mkdir(target)
-    subprocess.call(['taskd','add','org',org,
-                     '--data',taskddata])
+    subprocess.call(['taskd','add','org',org, '--data',taskddata])
 
 def add_user(taskddata, org, full_name):
     users = get_dict_of_users(taskddata)
@@ -22,12 +17,14 @@ def add_user(taskddata, org, full_name):
             lambda x: x.lower().replace(' ','_'),existing_full_names):
         print("Similar name already exists")
     else:
-        subprocess.call(['taskd','add','user',org,full_name,
-                         '--data',taskddata])
+        subprocess.call(['taskd','add','user',org,full_name, '--data',taskddata])
 
-# def main(taskddata, org, full_name):
-#     add_org(taskddata, org)
-#     add_user(taskddata, org, full_name)
+def add_user_keys(taskddata, user):
+    user_name = user.lower().replace(' ', '_')
+    if os.path.exists(os.path.join(taskddata, 'pki', user_name + '.key.pem')):
+        print('User key for ' + user_name + ' already exists')
+    else:
+        pki_call(taskddata, ['./generate.client', user_name])
 
 def main(data, config_orgs_dict):
     c = config_orgs_dict
@@ -35,3 +32,5 @@ def main(data, config_orgs_dict):
         add_org(data, org)
         for full_name in c[org]:
             add_user(data, org, full_name)
+            user_name = full_name.lower().replace(' ', '_')
+            add_user_keys(data, user_name)

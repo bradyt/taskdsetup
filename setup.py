@@ -20,7 +20,7 @@ setup(
     long_description = long_description,
     entry_points = {
         'console_scripts': [
-            'taskdsetup=taskdsetup.auto:main'
+            'taskdsetup=taskdsetup.cli:main'
         ],
     },
 )
