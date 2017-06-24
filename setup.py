@@ -7,9 +7,6 @@ with open('README.rst') as file:
 setup(
     name = 'taskdsetup',
     version = '0.0.dev0',
-    install_requires = [
-        'toml',
-        ],
     description = 'CLI to assist in TaskServer setup',
     url = 'https://github.com/bradyt/taskdsetup',
     author = 'Brady Trainor',
@@ -20,7 +17,7 @@ setup(
     long_description = long_description,
     entry_points = {
         'console_scripts': [
-            'taskdsetup=taskdsetup.auto:main'
+            'taskdsetup=taskdsetup.cli:main'
         ],
     },
 )

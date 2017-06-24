@@ -5,14 +5,15 @@ import os
 def return_project_base_dir():
     return os.path.dirname(os.path.dirname(__file__))
 
-def taskd_call(taskddata, args):
-    subprocess.call(['taskd'] + args + ['--data', taskddata])
+def taskd_call(data, args):
+    subprocess.run(['taskd'] + args + ['--data', data])
 
-def pki_call(taskddata, args):
-    subprocess.call(args, cwd=os.path.join(taskddata, 'pki'))
+def pki_call(data, args):
+    subprocess.call(args, cwd=os.path.join(data, 'pki'))
 
-def configure(taskddata, args):
-    subprocess.call(['taskd', 'config', '--force'] + args + ['--data', taskddata])
+def configure(data, args):
+    subprocess.call(['taskd', 'config', '--force']
+                    + args + ['--data', data])
 
 def get_dict_of_users(data):
     orgs = os.path.join(data, 'orgs')
