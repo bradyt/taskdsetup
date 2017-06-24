@@ -38,6 +38,31 @@ Dev
 
    pip3 install --user -i https://testpypi.python.org/pypi taskdsetup
 
+Some minimal setup to try
+=========================
+
+::
+
+   sudo apt-get install python3-pip -y
+   pip3 install --upgrade pip
+   sudo apt-get install taskwarrior taskd -y
+   git clone https://github.com/bradyt/taskdsetup
+   git submodule init
+   git submodule update
+   pip3 install --user -e .
+   task rc.confirmation=no
+   mkdir -p /tmp/var/taskd
+   taskdsetup init
+   # FileNotFoundError: [Errno 2] No such file or directory: '/tmp/var/taskd'
+   # mkdir -p /tmp/var/taskd
+   taskdsetup init
+   # ERROR: The '--data' path does not exist.
+   taskdsetup user
+   taskdsetup client
+   taskd server --data /tmp/var/taskd --daemon
+   task sync
+   
+
 Current testing workflow
 ========================
 

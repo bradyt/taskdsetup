@@ -12,7 +12,7 @@ def ensure_binaries():
 
 def init_task(data):
     if not os.path.isdir(data):
-        os.mkdir(data)
+        os.makedirs(data)
     core.taskd_call(data, ['init'])
 
 def copy_pki(data, source):
@@ -43,13 +43,13 @@ def server_key_setup(data):
 
     for f in cert_key_files:
         shutil.copy2(os.path.join(data, 'pki', f + '.pem'), data)
-        subprocess.run(['taskd', 'config', '--force', f, data + '/' + f + '.pem'])
+        subprocess.run(['taskd', 'config', '--data', data, '--force', f, data + '/' + f + '.pem'])
 
 def add_server_to_config(data, server, port):
     for setting in [['log',      data + '/taskd.log'],
                     ['pid.file', data + '/taskd.pid'],
                     ['server',   server + ':' + port]]:
-        subprocess.run(['taskd', 'config', '--force'] + setting)
+        subprocess.run(['taskd', 'config', '--data', data, '--force'] + setting)
 
 def main(data, source, cn, server, port):
     ensure_binaries()
