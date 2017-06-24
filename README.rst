@@ -36,6 +36,7 @@ Current testing workflow
 ========================
 
 ::
+
    # pypi testing pip testing
    # change version
    python3 setup.py sdist
@@ -45,6 +46,10 @@ Current testing workflow
    taskdsetup
 
    # github
+   git clone https://github.com/bradyt/taskdsetup.git
+   cd taskdsetup
    git pull
-   pip3 install -e .
+   # cp sample.json ../.taskdsetup.json
+   pip3 install --user -e .
    taskdsetup
+
