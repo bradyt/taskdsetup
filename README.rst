@@ -80,13 +80,9 @@ Current testing workflow
    git clone https://github.com/bradyt/taskdsetup.git
    cd taskdsetup
    git pull
-<<<<<<< HEAD
    # cp sample.json ../.taskdsetup.json
    pip3 install --user -e .
-=======
    git submodule init
    git submodule update
    pip3 install -e .
->>>>>>> ea441fe5fd00201cfc926bdefcb9c2a644dd251d
    taskdsetup
-
