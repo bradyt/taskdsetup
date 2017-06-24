@@ -14,21 +14,21 @@ with open(config_file) as f:
     json_config = f.read()
 config = json.loads(json_config)
 
-data   = os.path.expanduser(config['data'])
-s      = config['source']
-source = os.path.expanduser(s) if s else s
-cn     = config['cn']
-server = config['server']
-port   = config['port']
-orgs   = config['orgs']
+data        = os.path.expanduser(config['data'])
+s           = config['source']
+source      = os.path.expanduser(s) if s else s
+dns_name    = config['dns_name']
+internal_ip = config['internal_ip']
+port        = config['port']
+orgs        = config['orgs']
 
 def cli_init():
-    init.main(data=data, source=source, cn=cn, server=server, port=port)
+    init.main(data=data, source=source, cn=dns_name, server=internal_ip, port=port)
 
 def cli_user():
     user.main(data=data, config_orgs_dict=orgs)
 
 def cli_client():
     data_orgs_dict = core.get_dict_of_users(data=data)
-    client.main(data, server=server, port=port,
+    client.main(data, server=dns_name, port=port,
                 data_orgs_dict=data_orgs_dict)
