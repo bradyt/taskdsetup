@@ -6,14 +6,20 @@ def return_project_base_dir():
     return os.path.dirname(os.path.dirname(__file__))
 
 def taskd_call(data, args):
-    subprocess.run(['taskd'] + args + ['--data', data])
+    subprocess.run(['taskd', args[0], '--data', data] + args[1:])
 
 def pki_call(data, args):
     subprocess.call(args, cwd=os.path.join(data, 'pki'))
 
 def configure(data, args):
-    subprocess.call(['taskd', 'config', '--force']
-                    + args + ['--data', data])
+    taskd_call(data, ['config', '--force'] + args)
+
+def canonicalize(full_name):
+    return full_name.lower().replace(' ', '_')
+
+def ensure_dir(dir_):
+    if not os.path.isdir(dir_):
+        os.mkdir 
 
 def get_dict_of_users(data):
     orgs = os.path.join(data, 'orgs')
@@ -43,4 +49,4 @@ def get_dict_of_users(data):
 #              if fn == full_name ][0]
 #     return { 'org': org, 'uuid': uuid,
 #              'full_name': full_name,
-#              'user_name': full_name.lower().replace(' ','_') }
+#              'user_name': canonicalize(full_name) }

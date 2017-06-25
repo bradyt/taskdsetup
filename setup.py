@@ -6,7 +6,7 @@ with open('README.rst') as file:
 
 setup(
     name = 'taskdsetup',
-    version = '0.2a0.dev7',
+    version = '0.2a0.dev8',
     description = 'CLI to assist in TaskServer setup',
     url = 'https://github.com/bradyt/taskdsetup',
     author = 'Brady Trainor',

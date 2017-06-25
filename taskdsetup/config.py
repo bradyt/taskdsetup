@@ -41,7 +41,7 @@ def build_client_config_dict(data, server, port, config_orgs_dict, data_orgs_dic
         for uuid in d[org]:
 
             full_name = d[org][uuid]
-            user_name = full_name.lower().replace(' ', '_')
+            user_name = core.canonicalize(full_name)
 
             result[org][full_name] = {}
 
