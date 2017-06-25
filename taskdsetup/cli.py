@@ -4,6 +4,7 @@ from .auto import (cli_init, cli_user, cli_client)
 
 def main():
     parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest='cmd')
 
     parser_init = subparsers.add_parser('init')
     parser_user = subparsers.add_parser('user')

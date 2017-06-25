@@ -1,9 +1,6 @@
 
 from setuptools import setup
 
-with open('README.rst') as file:
-    long_description = file.read()
-
 setup(
     name = 'taskdsetup',
     version = '0.2a0.dev8',
@@ -12,7 +9,7 @@ setup(
     author = 'Brady Trainor',
     author_email = 'mail@bradyt.com',
     license = 'GPLv3',
-    long_description = long_description,
+    long_description = open('README.rst').read(),
     packages = ['taskdsetup', 'taskd'],
     package_data = {
         'taskdsetup': ['sample.json'],

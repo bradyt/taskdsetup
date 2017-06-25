@@ -2,6 +2,10 @@
 import subprocess
 import os
 
+def ensure_dirs():
+    if not os.path.isdir(data):
+        os.makedirs(data)
+
 def return_project_base_dir():
     return os.path.dirname(os.path.dirname(__file__))
 
