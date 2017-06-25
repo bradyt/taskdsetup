@@ -31,7 +31,7 @@ Some minimal setup to try
 
 If this is working for you, you can try `cp sample.json
 ~/.taskdsetup.json`, edit the `data` directory to something like
-`~/var/taskd`, the `user` name, and unless your only serving to
+`~/var/taskd`, the `user` name, and unless you're only serving to
 `localhost`, edit `dns_name` and `internal_ip`. The latter can be
 `0.0.0.0` if you're troubleshooting. If you have a different location
 for `source` where the `pki` directory will be, can edit that too.

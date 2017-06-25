@@ -6,15 +6,18 @@ with open('README.rst') as file:
 
 setup(
     name = 'taskdsetup',
-    version = '0.0.dev0',
+    version = '0.2a0.dev7',
     description = 'CLI to assist in TaskServer setup',
     url = 'https://github.com/bradyt/taskdsetup',
     author = 'Brady Trainor',
     author_email = 'mail@bradyt.com',
     license = 'GPLv3',
-    packages = ['taskdsetup'],
-    package_data = { 'taskd': ['taskd/pki'] },
     long_description = long_description,
+    packages = ['taskdsetup', 'taskd'],
+    package_data = {
+        'taskdsetup': ['sample.json'],
+        'taskd': ['pki/*'],
+        },
     entry_points = {
         'console_scripts': [
             'taskdsetup=taskdsetup.cli:main'
