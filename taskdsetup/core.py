@@ -1,6 +1,37 @@
 
 import subprocess
+from typing import Set
 import os
+from os.path import (expanduser, splitext, basename)
+from glob import glob
+
+def task_config_d(var, value):
+    return { 'cmd': 'task_config',
+             'var': var,
+             'value': value }
+
+def task_config(var, value):
+    subprocess.run(['task', 'rc.confirmation=0', 'config', var, value])
+
+def configure_d(var, value):
+    return { 'cmd': 'configure',
+             'var': var,
+             'value': value }
+
+def pki_call_d(script):
+    return { 'cmd': 'pki_call', 'script': script }
+
+def taskd_call_d(args):
+    return { 'cmd': 'taskd_call', 'args': args }
+
+def change_cn_line(data, cn):
+    f = os.path.join(data, 'pki', 'vars')
+    with open(f, 'r') as readfile:
+        filedata = readfile.read()
+    filedata = filedata.replace('CN=localhost',
+                                'CN=' + cn)
+    with open(f, 'w') as writefile:
+        filedata = writefile.write(filedata)
 
 def ensure_dirs():
     if not os.path.isdir(data):
@@ -24,6 +55,11 @@ def canonicalize(full_name):
 def ensure_dir(dir_):
     if not os.path.isdir(dir_):
         os.mkdir 
+
+def get_user_keys_list(data) -> Set[str]:
+    results = set([ splitext(splitext(basename(x))[0])[0]
+                    for x in glob(expanduser('/tmp/var/taskd/pki/*.pem')) ])
+    return results
 
 def get_dict_of_users(data):
     orgs = os.path.join(data, 'orgs')

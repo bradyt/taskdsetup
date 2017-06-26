@@ -1,52 +1,50 @@
 
-import os
-import shutil
-import subprocess
-from .core import (taskd_call, pki_call, configure)
-from . import core
+from typing import List
+from .core import (taskd_call_d, pki_call_d, configure_d)
 
-def init_task(data):
-    if not os.path.isdir(data):
-        os.makedirs(data)
-    taskd_call(data, ['init'])
+def ensure_data(data: str, data_exists: bool) -> dict:
+    if not data_exists:
+        return { 'cmd': 'os.makedirs',
+                 'dir': data }
+    return None
 
-def copy_pki(data, source):
-    if not os.path.exists(os.path.join(data, 'pki')):
-        if source == None:
-            source = os.path.join(core.return_project_base_dir(), 'taskd')
-        shutil.copytree(os.path.join(source, 'pki'),
-                        os.path.join(data, 'pki'))
+def copy_pki(source_pki: str, data_pki: str,
+             data_pki_exists: bool) -> dict:
+    if not data_pki_exists:
+        return { 'cmd': 'shutil.copytree',
+                 'source': source_pki,
+                 'dest': data_pki }
+    return None
 
-def change_cn_line(data, cn):
-    f = os.path.join(data, 'pki', 'vars')
-    with open(f, 'r') as readfile:
-        filedata = readfile.read()
-    filedata = filedata.replace('CN=localhost',
-                                'CN=' + cn)
-    with open(f, 'w') as writefile:
-        filedata = writefile.write(filedata)
+def generate_keys(all_exist: bool) -> dict:
+    if not all_exist:
+        return pki_call_d('./generate')
+    return None
 
-def server_key_setup(data):
-    cert_key_files = [ 'client.cert', 'client.key',
-                       'server.cert', 'server.key', 'server.crl', 'ca.cert' ]
+def copy_and_configure_keys(data: str, cert_names: List[str],
+                            cert_files: List[str]) -> List[dict]:
+    return ([ { 'cmd': 'shutil.copy2',
+                'from': f,
+                'to': data }
+              for f in cert_files ] +
+            [ configure_d(var=f,
+                          value=data + '/' + f + '.pem')
+              for f in cert_names ])
 
-    if any([ not os.path.isfile(os.path.join(data, 'pki', f + '.pem'))
-             for f in cert_key_files ]):
-        pki_call(data, ['./generate'])
+def configure_basic_details(data: str, server: str,
+                             port: str) -> List[dict]:
+    return [ configure_d(var=var, value=value)
+             for (var, value) in [ ('log',      data + '/taskd.log'),
+                                   ('pid.file', data + '/taskd.pid'),
+                                   ('server',   server + ':' + port) ] ]
 
-    for f in cert_key_files:
-        shutil.copy2(os.path.join(data, 'pki', f + '.pem'), data)
-        configure(data, [f, data + '/' + f + '.pem'])
-
-def add_server_to_config(data, server, port):
-    for setting in [['log',      data + '/taskd.log'],
-                    ['pid.file', data + '/taskd.pid'],
-                    ['server',   server + ':' + port]]:
-        configure(data, setting)
-
-def main(data, source, cn, server, port):
-    init_task(data)
-    copy_pki(data, source)
-    change_cn_line(data, cn)
-    server_key_setup(data)
-    add_server_to_config(data, server, port)
+def main(data, data_exists, source_pki, data_pki, data_pki_exists,
+         all_exist, cert_names, cert_files, server, port) -> List[dict]:
+    result = ([ ensure_data(data, data_exists),
+                taskd_call_d(['init']),
+                copy_pki(source_pki, data_pki, data_pki_exists),
+                { 'cmd': 'change_cn_line' },
+                generate_keys(all_exist) ]
+              + copy_and_configure_keys(data, cert_names, cert_files)
+              + configure_basic_details(data, server, port))
+    return [ x for x in result if x is not None ]
