@@ -10,6 +10,26 @@ and easy to do after the fact.
 In general, issues with TaskServer should be first checked via steps
 described at https://taskwarrior.org/docs/taskserver/setup.html.
 
+Configuration
+=============
+
+Before running, you'll want to specify your configuration with a
+`~/.taskdsetup.py`
+
+.. code-block:: json
+
+   {
+        "data": "/tmp/var/taskd",
+        "source": null,
+        "dns_name": "localhost",
+        "internal_ip": "localhost",
+        "port": "53589",
+        "orgs": {
+            "Public": {"John Smith": {}
+                    }
+        }
+    }
+
 Some minimal setup to try
 =========================
 
