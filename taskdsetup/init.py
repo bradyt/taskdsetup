@@ -12,8 +12,6 @@ def init_task(data):
 
 def copy_pki(data, source):
     if not os.path.exists(os.path.join(data, 'pki')):
-        if source == None:
-            source = os.path.join(core.return_project_base_dir(), 'taskd')
         shutil.copytree(os.path.join(source, 'pki'),
                         os.path.join(data, 'pki'))
 

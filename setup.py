@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = 'taskdsetup',
-    version = '0.2a0.dev8',
+    version = '0.1a0.dev0',
     description = 'CLI to assist in TaskServer setup',
     url = 'https://github.com/bradyt/taskdsetup',
     author = 'Brady Trainor',

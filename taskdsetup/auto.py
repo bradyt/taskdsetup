@@ -13,14 +13,18 @@ with open(config_file) as f:
 config = json.loads(json_config)
 
 data        = os.path.expanduser(config['data'])
-s           = config['source']
-source      = os.path.expanduser(s) if s else s
+source      = config['source']
 dns_name    = config['dns_name']
 internal_ip = config['internal_ip']
 port        = config['port']
 orgs        = config['orgs']
 
+
 def cli_init():
+    if source == None:
+        source = os.path.join(core.return_project_base_dir(), 'taskd')
+    else:
+        source = os.path.expanduser(source)
     init.main(data=data, source=source, cn=dns_name,
               server=internal_ip, port=port)
 
@@ -31,5 +35,6 @@ def cli_user():
 
 def cli_client():
     data_orgs_dict = core.get_dict_of_users(data=data)
+    # FIXME: use `data=data` for consistency
     client.main(data, server=dns_name, port=port,
                 data_orgs_dict=data_orgs_dict)
