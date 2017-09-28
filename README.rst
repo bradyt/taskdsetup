@@ -10,6 +10,9 @@ and easy to do after the fact.
 In general, issues with TaskServer should be first checked via steps
 described at https://taskwarrior.org/docs/taskserver/setup.html.
 
+There's also a pdf of troubleshooting steps, current link is at
+https://git.tasktools.org/ST/guides/raw/master/taskserver-setup/taskserver-setup.pdf
+
 Some minimal setup to try
 =========================
 
