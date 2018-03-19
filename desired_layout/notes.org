@@ -1,0 +1,20 @@
+
+∀ server, ∀ org, ∀ user:
+∀ client:
+
+{user} × {client}
+
+the client may determine the format of the config
+
+the user and client may determine the task_dir
+
+rows?
+
+| user | client | format | task_dir     |
+|------+--------+--------+--------------|
+| JS   | phone  | file   | ./           |
+| T    | phone  | file   | ./           |
+| JS   | vps    | cmds   | ~/.task      |
+| T    | vps    | cmds   | ~/.task_test |
+| JS   | macos  | cmds   | ~/.task      |
+| T    | macos  | cmds   | ~/.task_test |
